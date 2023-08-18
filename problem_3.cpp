@@ -1,17 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int N = 1e5 + 7;
+/*
+কামালের বাসার নোড দেওয়া আছে.. সে নোড এর কত গুলা চিলড্রেন আছে সেটা কাউন্ট করলেই হবে ভাইয়া..
+Adjacency list ইউজ করেন আর adj[k].size() প্রিন্ট করে দিলেই হবে ভাইয়া
+*/
+
+const int N = 100;
 vector<int> adj[N];
 bool visited[N];
 int level[N];
-vector<int> shop;
 
-void bfs(int src, int lv)
+void bfs(int src)
 {
+    visited[src] = true;
     queue<int> q;
     q.push(src);
-    visited[src] = true;
     level[src] = 0;
 
     while (!q.empty())
@@ -25,12 +29,7 @@ void bfs(int src, int lv)
             {
                 q.push(v);
                 visited[v] = true;
-                level[v] = level[u] + 1;
-                if (level[v] == lv)
-                {
-                    // shop[0].push_back(v);
-                    shop.push_back(v);
-                }
+                level[v] = level[u]+1;
             }
         }
     }
@@ -40,6 +39,7 @@ int main()
 {
     int n, m;
     cin >> n >> m;
+
     for (int i = 0; i < m; i++)
     {
         int u, v;
@@ -57,37 +57,20 @@ int main()
     //     }
     //     cout << endl;
     // }
-
-    int x;
-    cin >> x;
-    bfs(0, x);
-    if (x == 0)
-        cout << 0 << endl;
-
-    // cout << endl;
-    // for (int i = 0; i < n; i++)
-    // {
-    //     cout << "Level of " << i << ": " << level[i] << endl;
-    // }
-
-    // cout << endl;
-
-    // cout<<shop.size()<<endl;
-
-    else
+    // cout<<endl;
+    
+    int x; cin >> x; 
+    bfs(x);
+    int cnt = 0;
+    for(int i = 0; i<n; i++)
     {
-        if (shop.size() == 0)
+        // cout<<"Level of "<<i<<": "<<level[i]<<endl;
+        if(level[i] == level[x]+1)
         {
-            cout << -1 << endl;
-        }
-        else
-        {
-            for (int el : shop)
-            {
-                cout << el << " ";
-            }
+            cnt++;
         }
     }
+    cout<<cnt<<endl;
 
     return 0;
 }
